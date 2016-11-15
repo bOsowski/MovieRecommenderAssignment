@@ -14,6 +14,7 @@ public class Load {
 	ArrayList<User> users = new ArrayList<User>();	//arrayList holding users.
 	ArrayList<Rating> ratings = new ArrayList<Rating>();	//arrayList holding ratings.
 	ArrayList<Item> items = new ArrayList<Item>(); //arrayList holding items.
+	
 	ArrayList<Occupation> occupations = new ArrayList<Occupation>();
 	ArrayList<Genre> genres = new ArrayList<Genre>();
 	
@@ -30,8 +31,48 @@ public class Load {
 		readOccupationsFile("moviedata_small/occupation.dat");
 		System.out.println(occupations);
 		System.out.println("number of occupations: "+ occupations.size());
+		readGenresFile("moviedata_small/genre.dat");
+		System.out.println(genres);
+		System.out.println("number of genres: "+ genres.size());
 	}
 	
+	
+	
+	
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
+	}
+	public ArrayList<Rating> getRatings() {
+		return ratings;
+	}
+	public void setRatings(ArrayList<Rating> ratings) {
+		this.ratings = ratings;
+	}
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+	public void setItems(ArrayList<Item> items) {
+		this.items = items;
+	}
+	public ArrayList<Occupation> getOccupations() {
+		return occupations;
+	}
+	public void setOccupations(ArrayList<Occupation> occupations) {
+		this.occupations = occupations;
+	}
+	public ArrayList<Genre> getGenres() {
+		return genres;
+	}
+	public void setGenres(ArrayList<Genre> genres) {
+		this.genres = genres;
+	}
+
+
+
+
 	//reads the users file and wraps each user in the User class and adds each instance to the users arraylist.
 	public void readUsersFile(String fileName){
 	
