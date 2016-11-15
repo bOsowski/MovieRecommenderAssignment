@@ -20,20 +20,20 @@ public class Load {
 	
 	public Load(){
 		readUsersFile("moviedata_small/users5.dat");
-		System.out.println(users);
-		System.out.println("number of users: "+ users.size());
+	//	System.out.println(users);
+	//	System.out.println("number of users: "+ users.size());
 		readRatingsFile("moviedata_small/ratings5.dat");
-		System.out.println(ratings);
-		System.out.println("number of ratings: "+ ratings.size());
+	//	System.out.println(ratings);
+	//	System.out.println("number of ratings: "+ ratings.size());
 		readItemsFile("moviedata_small/items5.dat");
-		System.out.println(items);
-		System.out.println("number of items: "+ items.size());
+	//	System.out.println(items);
+	//	System.out.println("number of items: "+ items.size());
 		readOccupationsFile("moviedata_small/occupation.dat");
-		System.out.println(occupations);
-		System.out.println("number of occupations: "+ occupations.size());
+	//	System.out.println(occupations);
+	//	System.out.println("number of occupations: "+ occupations.size());
 		readGenresFile("moviedata_small/genre.dat");
-		System.out.println(genres);
-		System.out.println("number of genres: "+ genres.size());
+	//	System.out.println(genres);
+	//	System.out.println("number of genres: "+ genres.size());
 	}
 	
 	

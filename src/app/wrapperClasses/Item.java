@@ -5,7 +5,10 @@ public class Item {
 	private int movieId;
 	private String movieTitle;
 	private int releaseDate;
-	private String videoReleaseDate;
+	//private String videoReleaseDate;
+	private short videoReleaseDate_Day;
+	private short videoReleaseDate_Month;
+	private short videoReleaseDate_Year;
 	private String movieUrl;
 	
 	private short unknownGenre;
@@ -38,7 +41,53 @@ public class Item {
 		this.movieId = movieId;
 		this.movieTitle = movieTitle;
 		this.releaseDate = releaseDate;
-		this.videoReleaseDate = videoReleaseDate;
+		
+		//this.videoReleaseDate = videoReleaseDate;
+		//take the videoReleaseDate and parse it into three different variables day,month,year.
+		String[] vidReleaseDate = videoReleaseDate.split("-");
+		
+		if(vidReleaseDate[1].equalsIgnoreCase("Jan")){
+			vidReleaseDate[1] = "01";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Feb")){
+			vidReleaseDate[1] = "02";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Mar")){
+			vidReleaseDate[1] = "03";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Apr")){
+			vidReleaseDate[1] = "04";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("May")){
+			vidReleaseDate[1] = "05";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Jun")){
+			vidReleaseDate[1] = "06";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Jul")){
+			vidReleaseDate[1] = "07";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Aug")){
+			vidReleaseDate[1] = "08";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Sep")){
+			vidReleaseDate[1] = "09";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Oct")){
+			vidReleaseDate[1] = "10";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Nov")){
+			vidReleaseDate[1] = "11";
+		}
+		else if(vidReleaseDate[1].equalsIgnoreCase("Dec")){
+			vidReleaseDate[1] = "12";
+		}
+		
+		this.videoReleaseDate_Day = Short.parseShort(vidReleaseDate[0]);
+		this.videoReleaseDate_Month = Short.parseShort(vidReleaseDate[1]);
+		this.videoReleaseDate_Year = Short.parseShort(vidReleaseDate[2]);
+
+		
 		this.movieUrl = movieUrl;
 		this.unknownGenre = unknownGenre;
 		this.actionGenre = actionGenre;
@@ -60,38 +109,12 @@ public class Item {
 		this.warGenre = warGenre;
 		this.westernGenre = westernGenre;
 	}
-
-	public String toString1() {
-		return "Item [movieId=" + movieId + ", movieTitle=" + movieTitle + ", releaseDate=" + releaseDate
-				+ ", videoReleaseDate=" + videoReleaseDate + ", movieUrl=" + movieUrl
-				
-				+ ", unknownGenre=" + unknownGenre
-				+ ", actionGenre=" + actionGenre 
-				+ ", adventureGenre=" + adventureGenre 
-				+ ", animationGenre=" + animationGenre 
-				+ ", childrensGenre=" + childrensGenre 
-				+ ", comedyGenre=" + comedyGenre
-				+ ", crimeGenre=" + crimeGenre 
-				+ ", documentaryGenre=" + documentaryGenre 
-				+ ", dramaGenre=" + dramaGenre
-				+ ", fantasyGenre=" + fantasyGenre 
-				+ ", film_noirGenre=" + film_noirGenre 
-				+ ", horrorGenre="+ horrorGenre 
-				+ ", musicalGenre=" + musicalGenre 
-				+ ", mysteryGenre=" + mysteryGenre 
-				+ ", romanceGenre="+ romanceGenre 
-				+ ", sci_fiGenre=" + sci_fiGenre 
-				+ ", thrillerGenre=" + thrillerGenre 
-				+ ", warGenre="+ warGenre 
-				+ ", westernGenre=" + westernGenre 
-				+ "]";
-	}
 	
 	@Override
 	public String toString(){
 		
 		String details = ("\nItem [movieId=" + movieId + ", movieTitle=" + movieTitle + ", releaseDate=" + releaseDate
-				+ ", videoReleaseDate=" + videoReleaseDate + ", movieUrl=" + movieUrl);
+				+ ", videoReleaseDate=" + videoReleaseDate_Day +"-"+ videoReleaseDate_Month+"-" + videoReleaseDate_Year +", movieUrl=" + movieUrl);
 		
 		if(unknownGenre == 1){
 			details = details + (", unknownGenre");
@@ -115,7 +138,7 @@ public class Item {
 			details = details + (", crimeGenre");
 		}	
 		if(documentaryGenre == 1){
-			details = details + (", deocumentaryGenre");
+			details = details + (", documentaryGenre");
 		}
 		if(dramaGenre == 1){
 			details = details + (", dramaGenre");
