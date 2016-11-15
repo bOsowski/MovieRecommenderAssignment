@@ -2,7 +2,9 @@ package app;
 import java.io.File;
 import java.util.ArrayList;
 
+import app.wrapperClasses.Genre;
 import app.wrapperClasses.Item;
+import app.wrapperClasses.Occupation;
 import app.wrapperClasses.Rating;
 import app.wrapperClasses.User;
 import edu.princeton.cs.introcs.In;
@@ -12,6 +14,8 @@ public class Load {
 	ArrayList<User> users = new ArrayList<User>();	//arrayList holding users.
 	ArrayList<Rating> ratings = new ArrayList<Rating>();	//arrayList holding ratings.
 	ArrayList<Item> items = new ArrayList<Item>(); //arrayList holding items.
+	ArrayList<Occupation> occupations = new ArrayList<Occupation>();
+	ArrayList<Genre> genres = new ArrayList<Genre>();
 	
 	public Load(){
 		readUsersFile("moviedata_small/users5.dat");
@@ -23,6 +27,9 @@ public class Load {
 		readItemsFile("moviedata_small/items5.dat");
 		System.out.println(items);
 		System.out.println("number of items: "+ items.size());
+		readOccupationsFile("moviedata_small/occupation.dat");
+		System.out.println(occupations);
+		System.out.println("number of occupations: "+ occupations.size());
 	}
 	
 	//reads the users file and wraps each user in the User class and adds each instance to the users arraylist.
@@ -119,6 +126,47 @@ public class Load {
 	}
 	
 	
+	public void readOccupationsFile(String fileName){
+		
+		  File occupationsFile = new File(fileName);
+	      In inOccupations = new In(occupationsFile);
+	      while (!inOccupations.isEmpty()) {
+	          // get user and rating from data source
+	          String occupationDetails = inOccupations.readLine();
+	          
+	        	occupations.add(new Occupation(occupationDetails));  
+				}
+	}
+	
+	
+	
+	public void readGenresFile(String fileName){
+		
+		  File genresFile = new File(fileName);
+	      In inGenres = new In(genresFile);
+	        //each field is separated(delimited) by a '|'
+	      String delims = "[|]";
+	      while (!inGenres.isEmpty()) {
+	          // get user and rating from data source
+	          String genreDetails = inGenres.readLine();
+
+	          // parse user details string
+	          String[] genreTokens = genreDetails.split(delims);
+
+	          // output user data to console.
+	          if (genreTokens.length == 2) {     	  
+	        	  genres.add(new Genre(genreTokens[0],Short.parseShort(genreTokens[1])));
+	          }else
+	          {
+	              try {
+					throw new Exception("Invalid member length: "+genreTokens.length);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	          }
+	      }
+	}
 	
 	
 
