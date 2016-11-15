@@ -196,7 +196,7 @@ public class Driver {
 			 western = 0;
 		}
 
-		load.getItems().add(new Item(load.getItems().size(),movieTitle,movieReleaseDate,videoReleaseDate,movieUrl,unknown,action,adventure,animation,childrens,comedy,crime,documentary,drama,fantasy,film_noir,horror,musical,mystery,romance,sci_fi,thriller,war,western));
+		load.getItems().add(new Item(load.getItems().size()+1,movieTitle,movieReleaseDate,videoReleaseDate,movieUrl,unknown,action,adventure,animation,childrens,comedy,crime,documentary,drama,fantasy,film_noir,horror,musical,mystery,romance,sci_fi,thriller,war,western));
 		
 		System.out.print(load.getItems());
 		
