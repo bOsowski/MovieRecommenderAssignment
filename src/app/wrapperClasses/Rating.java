@@ -1,13 +1,13 @@
 package app.wrapperClasses;
 
 public class Rating {
-	int movieId;
+	int userId;
 	int itemId;
 	short rating;
 	long timestamp;
 
-	public Rating(int movieId, int itemId, short rating, long timestamp) {
-		this.movieId = movieId;
+	public Rating(int userId, int itemId, short rating, long timestamp) {
+		this.userId = userId;
 		this.itemId = itemId;
 		this.rating = rating;
 		this.timestamp = timestamp;
@@ -15,19 +15,19 @@ public class Rating {
 	
 	@Override
 	public String toString() {
-		return "\nRating [movieId=" + movieId + ", itemId=" + itemId + ", rating=" + rating + ", timestamp=" + timestamp
+		return "\nRating [userId=" + userId + ", itemId=" + itemId + ", rating=" + rating + ", timestamp=" + timestamp
 				+ "]";
 	}
 
 	
 //Getters and Setters
-	public int getMovieId() {
-		return movieId;
+	public int getUserId() {
+		return userId;
 	}
 
 
-	public void setMovieId(int movieId) {
-		this.movieId = movieId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 

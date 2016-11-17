@@ -8,7 +8,7 @@ import app.wrapperClasses.User;
 public class Driver {
 	private Scanner input = new Scanner(System.in);
 	private Load load;
-	//Main
+	
 	public static void main(String[] args) {
 		new Driver();
 	}
@@ -17,25 +17,33 @@ public class Driver {
 	//Class Constructor
 	public Driver(){
 		load = new Load();
+		displayStartScreen();
 		mainMenu();
 	}
 	
 	private void mainMenu(){
-		int choice;
+	
+		int choice=0;			
+				
 				System.out.println("\n1) Add user");
 				System.out.println("2) Remove user");	//not implemented
 				System.out.println("3) View users");
 				System.out.println("4) Add movie");
-				System.out.println("5) Add rating");	//not implemented
+				System.out.println("5) Add rating");
 				System.out.println("6) See all movies");
 				System.out.println("7) Search for a movie");	//not implemented
 				System.out.println("8) Get user ratings");	//not fully implemented
 				System.out.println("9) Get user recommendations");	//not implemented
 				System.out.println("10) Show top 10 movies");	//not implemented
 				System.out.print("Choice: ");
-		choice = input.nextInt();
-		@SuppressWarnings("unused") 
-		String scannerfix = input.nextLine(); //fixes a bug which caused the console to skip input
+		try
+		{
+			choice = input.nextInt();
+		}catch(Exception e)
+		{
+			System.err.println("	Invalid Command.	\n---Only numerals are allowed!---");
+		}
+		input.nextLine(); //fixes a bug which caused the console to skip input
 		
 		switch(choice){
 		case 1:	
@@ -60,7 +68,7 @@ public class Driver {
 			
 		case 5:
 			System.out.println("  Adding a rating..");
-			System.out.println("  NOT YET IMPLEMENTED");
+			addRating();
 			break;
 			
 		case 6:
@@ -102,18 +110,24 @@ public class Driver {
 		System.out.print("Your age: ");
 		int userAge = input.nextInt();
 		
-		@SuppressWarnings("unused") 
-		String scannerfix = input.nextLine(); //fixes a bug which caused the console to skip input
+		input.nextLine(); //fixes a bug which caused the console to skip input
+
 		
-		System.out.print("Your gender? (M/F)");
-		char userGender = input.nextLine().charAt(0);
+		System.out.print("Your gender? (M/F): ");
+		char userGender = input.nextLine().toUpperCase().charAt(0);
+		//accepting only valid input.. implement in the future for other values
+		while(!(Character.toString(userGender).matches("M")) && !(Character.toString(userGender).matches("F"))){
+			System.err.println("\n|      Invalid Input.     |\n|                  	  |\n|---Type in 'M' or 'F'!---|\n|                  	  |\n|       Press Enter.      |");
+			input.nextLine();
+			System.out.print("Your gender? (M/F): ");
+			userGender = input.nextLine().toUpperCase().charAt(0);
+		}
 		System.out.print("Your occupation: ");
 		String userOccupation = input.nextLine();
 		System.out.print("Your zip code: ");
 		int userZipCode = input.nextInt();
 		
-		@SuppressWarnings("unused") 
-		String scannerfix1 = input.nextLine(); //fixes a bug which caused the console to skip input
+		input.nextLine(); //fixes a bug which caused the console to skip input
 		
 		System.out.println("Are you sure you want to add this user?(y/n)");
 		String choice = input.nextLine();
@@ -134,8 +148,7 @@ public class Driver {
 		System.out.print("Release date: ");
 		int movieReleaseDate = input.nextInt();
 		
-		@SuppressWarnings("unused") 
-		String scannerfix = input.nextLine(); //fixes a bug which caused the console to skip input
+		input.nextLine(); //fixes a bug which caused the console to skip input
 		
 		System.out.print("Video release date(dd-Month-yyyy): ");
 		String videoReleaseDate = input.nextLine();
@@ -233,4 +246,84 @@ public class Driver {
 		}
 	}
 
+	
+	private void addRating(){
+		
+		System.out.println("What is your name?: ");
+		String userName = input.nextLine();
+		System.out.println("What is your surname?: ");
+		String userSurname = input.nextLine();
+		boolean userExists = false;
+		
+		for(int i = 0; i < load.getUsers().size(); i++){
+			
+			if(userName.equals(load.getUsers().get(i).getName()) && userSurname.equals(load.getUsers().get(i).getSurname())){
+				int userId = load.getUsers().get(i).getUserId();
+				userExists = true;
+				break;
+			}
+			
+		}
+		
+		if(userExists == false){
+				System.err.println("This user doesn't exist!\n");
+				System.out.println("Do you want to create a new user?(Y/N): ");
+				
+				char userInput = input.nextLine().toUpperCase().charAt(0);
+				while(!(Character.toString(userInput).matches("Y")) && !(Character.toString(userInput).matches("N"))){
+					System.err.println("\n|      Invalid Input.     |\n|                  	  |\n|---Type in 'M' or 'F'!---|\n|                  	  |\n|       Press Enter.      |");
+					input.nextLine();
+					System.err.println("This user doesn't exist!\n");
+					System.out.println("Do you want to create a new user?(Y/N): ");
+					userInput = input.nextLine().toUpperCase().charAt(0);
+				}
+					if(Character.toString(userInput).matches("Y")){
+						addUser();
+					}
+					else{
+						if(goBackToTheMainMenu() == true) mainMenu();
+						else addRating();
+					}		
+		}		
+		
+		System.out.println("What is the movie you'd like to review?//NOT IMPLEMENTED");
+		input.nextLine();
+		
+	}
+	
+	
+	private boolean goBackToTheMainMenu(){
+		System.out.println("Do you want to go back to the main menu?(Y/N): ");
+		char userInput = input.nextLine().toUpperCase().charAt(0);
+		//accepting only valid input.. implement in the future for other values
+		while(!(Character.toString(userInput).matches("Y")) && !(Character.toString(userInput).matches("N"))){
+			System.err.println("\n|      Invalid Input.     |\n|                  	  |\n|---Type in 'M' or 'F'!---|\n|                  	  |\n|       Press Enter.      |");
+			input.nextLine();
+			System.out.print("Your gender? (M/F): ");
+			userInput = input.nextLine().toUpperCase().charAt(0);
+		}
+		if((Character.toString(userInput).matches("Y"))){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	
+	public void displayStartScreen(){
+		System.out.println();
+		System.err.println(" ███▄ ▄███▓ ▒█████   ██▒   █▓ ██▓▓█████     ██▀███  ▓█████  ▄████▄   ▒█████   ███▄ ▄███▓ ███▄ ▄███▓▓█████  ███▄    █ ▓█████▄ ▓█████  ██▀███  ");
+		System.err.println("▓██▒▀█▀ ██▒▒██▒  ██▒▓██░   █▒▓██▒▓█   ▀    ▓██ ▒ ██▒▓█   ▀ ▒██▀ ▀█  ▒██▒  ██▒▓██▒▀█▀ ██▒▓██▒▀█▀ ██▒▓█   ▀  ██ ▀█   █ ▒██▀ ██▌▓█   ▀ ▓██ ▒ ██▒");
+		System.err.println("▓██    ▓██░▒██░  ██▒ ▓██  █▒░▒██▒▒███      ▓██ ░▄█ ▒▒███   ▒▓█    ▄ ▒██░  ██▒▓██    ▓██░▓██    ▓██░▒███   ▓██  ▀█ ██▒░██   █▌▒███   ▓██ ░▄█ ▒");
+		System.err.println("▒██    ▒██ ▒██   ██░  ▒██ █░░░██░▒▓█  ▄    ▒██▀▀█▄  ▒▓█  ▄ ▒▓▓▄ ▄██▒▒██   ██░▒██    ▒██ ▒██    ▒██ ▒▓█  ▄ ▓██▒  ▐▌██▒░▓█▄   ▌▒▓█  ▄ ▒██▀▀█▄ ");
+		System.err.println("▒██▒   ░██▒░ ████▓▒░   ▒▀█░  ░██░░▒████▒   ░██▓ ▒██▒░▒████▒▒ ▓███▀ ░░ ████▓▒░▒██▒   ░██▒▒██▒   ░██▒░▒████▒▒██░   ▓██░░▒████▓ ░▒████▒░██▓ ▒██▒");
+		System.err.println("░ ▒░   ░  ░░ ▒░▒░▒░    ░ ▐░  ░▓  ░░ ▒░ ░   ░ ▒▓ ░▒▓░░░ ▒░ ░░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒░   ░  ░░ ▒░   ░  ░░░ ▒░ ░░ ▒░   ▒ ▒  ▒▒▓  ▒ ░░ ▒░ ░░ ▒▓ ░▒▓░");
+		System.err.println("░  ░      ░  ░ ▒ ▒░    ░ ░░   ▒ ░ ░ ░  ░     ░▒ ░ ▒░ ░ ░  ░  ░  ▒     ░ ▒ ▒░ ░  ░      ░░  ░      ░ ░ ░  ░░ ░░   ░ ▒░ ░ ▒  ▒  ░ ░  ░  ░▒ ░ ▒░");
+		System.err.println("░      ░   ░ ░ ░ ▒       ░░   ▒ ░   ░        ░░   ░    ░   ░        ░ ░ ░ ▒  ░      ░   ░      ░      ░      ░   ░ ░  ░ ░  ░    ░     ░░   ░ ");
+		System.err.println("       ░       ░ ░        ░   ░     ░  ░      ░        ░  ░░ ░          ░ ░         ░          ░      ░  ░         ░    ░       ░  ░   ░     ");
+		System.err.println("                         ░                                 ░                                                          ░                      ");
+		System.err.println("                                                                 PRESS ENTER                                                                 ");
+		input.nextLine();
+	}
 }
