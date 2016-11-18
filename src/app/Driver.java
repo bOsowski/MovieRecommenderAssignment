@@ -105,7 +105,44 @@ public class Driver {
 	}
 	
 	private void displayAllMovies(){
-		//System.out.print("Display movies based onz")
+		
+		int choice = 0;
+		
+			System.out.println("\nDisplay movies based on: ");
+			System.out.println("1) Name");
+			System.out.println("2) Ratings");
+			System.out.println("3) Popularity");
+			System.out.println("4) Release Date");
+			
+			try
+			{
+				choice = input.nextInt();
+			}catch(Exception e)
+			{
+				System.err.println("	Invalid Command.	\n---Only numerals are allowed!---");
+			}
+			input.nextLine(); //fixes a bug which caused the console to skip input
+			
+			switch(choice){
+			case 1:	
+				System.out.println("Displaying movies based on name.. ");
+				
+				break;
+			
+			case 2:
+				
+				break;
+				
+			case 3:
+				
+				break;
+				
+			case 4:
+				
+				break;
+			}
+			
+			
 	}
 	
 	private void addMovieTitlesToRatings(){
@@ -317,11 +354,11 @@ public class Driver {
 		}
 		
 		System.out.print("Type in the movie ID you want to add a rating for: ");
-		int movieId = input.nextInt()-1;
+		int movieId = (input.nextInt());	//10 if 10
 		boolean correctInput = false;
-
+		System.out.println("movieId : "+ movieId);
 		for(int i = 0; i < load.getItems().size(); i++){
-			
+			System.out.println("movieId real : "+ load.getItems().get(i).getMovieId());	//
 			if(load.getItems().get(i).getMovieId() == movieId){
 				correctInput = true;
 				break;
@@ -332,24 +369,24 @@ public class Driver {
 			mainMenu();			
 		}
 		
-		System.out.print("Rate the movie "+ load.getItems().get(movieId).getMovieTitle()+" from -5 to 5: " );
+		System.out.print("Rate the movie "+ load.getItems().get(movieId-1).getMovieTitle()+" from -5 to 5: " );
 		short userRating = input.nextShort();
 		input.nextLine();
 		
 		//dividing by 1000L gets the unix time.
 		long unixTime = System.currentTimeMillis() / 1000L;
 		
-		System.out.println("Do you want to give the movie "+ load.getItems().get(movieId).getMovieTitle()+" ("+load.getItems().get(movieId).getReleaseDate()+") a rating of "+userRating+"?(Y/N)");
+		System.out.println("Do you want to give the movie "+ load.getItems().get(movieId-1).getMovieTitle()+" ("+load.getItems().get(movieId-1).getReleaseDate()+") a rating of "+userRating+"?(Y/N)");
 		char userInput = input.nextLine().toUpperCase().charAt(0);
 		while(!(Character.toString(userInput).matches("Y")) && !(Character.toString(userInput).matches("N"))){
 			System.err.println("\n|      Invalid Input.     |\n|                  	  |\n|---Type in 'M' or 'F'!---|\n|                  	  |\n|       Press Enter.      |");
 			input.nextLine();
-			System.out.println("Do you want to give the movie "+ load.getItems().get(movieId).getMovieTitle()+" ("+load.getItems().get(movieId).getReleaseDate()+") a rating of "+userRating+"?(Y/N)");
+			System.out.println("Do you want to give the movie "+ load.getItems().get(movieId-1).getMovieTitle()+" ("+load.getItems().get(movieId-1).getReleaseDate()+") a rating of "+userRating+"?(Y/N)");
 			userInput = input.nextLine().toUpperCase().charAt(0);
 		}
 		if(Character.toString(userInput).matches("Y")){
 			//add a new rating of the user definied parameters. MovieID+1 because indexing starts at 0 where Ids start from 1.
-		load.getRatings().add(new Rating(userId,movieId+1,userRating,unixTime));
+		load.getRatings().add(new Rating(userId,movieId,userRating,unixTime));
 		System.out.println("Review added!");
 		}
 		else{

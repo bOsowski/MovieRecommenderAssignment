@@ -34,6 +34,12 @@ public class Load {
 		readGenresFile("moviedata_small/genre.dat");
 	//	System.out.println(genres);
 	//	System.out.println("number of genres: "+ genres.size());
+		
+		for(int i = 0; i<ratings.size(); i++){
+			
+			//getItems().get(i).setOverallRating(ratings.get(getItems().get(i).getMovieId()-1).getRating());
+			getItems().get(i).setOverallRating(getRatings().get(getItems().get(i).getMovieId()-1).getRating());
+		}
 	}
 	
 	

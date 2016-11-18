@@ -14,6 +14,8 @@ public class Rating {
 		this.itemId = itemId;
 		this.rating = rating;
 		this.timestamp = timestamp;
+		
+		
 	}
 	
 

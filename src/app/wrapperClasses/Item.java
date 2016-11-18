@@ -1,14 +1,18 @@
 package app.wrapperClasses;
 
+import app.Load;
+
 public class Item {
 	
 	private int movieId;
 	private String movieTitle;
 	private int releaseDate;
 	//private String videoReleaseDate;
+	
 	private short videoReleaseDate_Day;
 	private short videoReleaseDate_Month;
 	private short videoReleaseDate_Year;
+	
 	private String movieUrl;
 	
 	private short unknownGenre;
@@ -30,6 +34,8 @@ public class Item {
 	private short thrillerGenre;
 	private short warGenre;
 	private short westernGenre;
+	
+	private int overallRating;
 
 	public Item(int movieId, String movieTitle, int releaseDate, String videoReleaseDate, String movieUrl, short unknownGenre,
 			short actionGenre, short adventureGenre, short animationGenre, short childrensGenre,
@@ -179,6 +185,11 @@ public class Item {
 		return details;
 	}
 
+	public void setOverallRating(int overallRating){
+		this.overallRating = overallRating;
+	}
+	
+	
 	public int getMovieId() {
 		return movieId;
 	}
