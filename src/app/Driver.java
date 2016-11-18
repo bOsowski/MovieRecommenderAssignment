@@ -3,6 +3,7 @@ package app;
 import java.util.Scanner;
 
 import app.wrapperClasses.Item;
+import app.wrapperClasses.Rating;
 import app.wrapperClasses.User;
 
 public class Driver {
@@ -72,7 +73,7 @@ public class Driver {
 			break;
 			
 		case 6:
-			System.out.println("  Getting aLL movies..");
+			System.out.println("  Getting all movies..");
 			System.out.println(load.getItems());
 			break;
 			
@@ -84,6 +85,8 @@ public class Driver {
 		case 8:
 			System.out.println("  Getting user ratings..");
 			System.out.println("  NOT YET FULLY IMPLEMENTED");
+			addMovieTitlesToRatings();
+			// set the title of the rating object to the value of the title of the item with the rating's movie Id
 			System.out.println(load.getRatings());
 			break;
 			
@@ -99,6 +102,18 @@ public class Driver {
 			
 		}
 		mainMenu();
+	}
+	
+	private void displayAllMovies(){
+		//System.out.print("Display movies based onz")
+	}
+	
+	private void addMovieTitlesToRatings(){
+	for(int i =0; i<load.getRatings().size();i++){
+	load.getRatings().get(i).setMovieTitle(load.getItems().get(load.getRatings().get(i).getItemId()-1).getMovieTitle());
+		
+		
+	}
 	}
 	
 	private void addUser(){
@@ -249,22 +264,24 @@ public class Driver {
 	
 	private void addRating(){
 		
+		//Getting the user information to add a rating as
 		System.out.println("What is your name?: ");
 		String userName = input.nextLine();
 		System.out.println("What is your surname?: ");
 		String userSurname = input.nextLine();
 		boolean userExists = false;
-		
+		int userId = 0;
+		//Check if the specified user exists..
 		for(int i = 0; i < load.getUsers().size(); i++){
 			
 			if(userName.equals(load.getUsers().get(i).getName()) && userSurname.equals(load.getUsers().get(i).getSurname())){
-				int userId = load.getUsers().get(i).getUserId();
+				userId = load.getUsers().get(i).getUserId();
 				userExists = true;
 				break;
 			}
 			
 		}
-		
+		//If the user doesn't exist, ask if to create a new user or to go to the main menu or to add a rating again
 		if(userExists == false){
 				System.err.println("This user doesn't exist!\n");
 				System.out.println("Do you want to create a new user?(Y/N): ");
@@ -286,9 +303,58 @@ public class Driver {
 					}		
 		}		
 		
-		System.out.println("What is the movie you'd like to review?//NOT IMPLEMENTED");
+		System.out.println("Type in a movie title to search for: ");
+		String movieTitle = input.nextLine();
+		System.out.println("Matching movies: \n");
+		//Check if the specified movie exists..
+		for(int i = 0; i < load.getItems().size(); i++){
+			
+			//if(movieTitle.contains(load.getItems().get(i).getMovieTitle())){
+			if(load.getItems().get(i).getMovieTitle().contains(movieTitle)){
+				System.out.println("Movie Title: "+load.getItems().get(i).getMovieTitle()+" ("+load.getItems().get(i).getReleaseDate()+") "+"*** Movie ID: "+load.getItems().get(i).getMovieId()+"***");					
+			}
+			
+		}
+		
+		System.out.print("Type in the movie ID you want to add a rating for: ");
+		int movieId = input.nextInt()-1;
+		boolean correctInput = false;
+
+		for(int i = 0; i < load.getItems().size(); i++){
+			
+			if(load.getItems().get(i).getMovieId() == movieId){
+				correctInput = true;
+				break;
+			}	
+		}	
+		if(!correctInput){
+			System.err.println("This movie ID doesn't exist!\n Going back to the menu..");
+			mainMenu();			
+		}
+		
+		System.out.print("Rate the movie "+ load.getItems().get(movieId).getMovieTitle()+" from -5 to 5: " );
+		short userRating = input.nextShort();
 		input.nextLine();
 		
+		//dividing by 1000L gets the unix time.
+		long unixTime = System.currentTimeMillis() / 1000L;
+		
+		System.out.println("Do you want to give the movie "+ load.getItems().get(movieId).getMovieTitle()+" ("+load.getItems().get(movieId).getReleaseDate()+") a rating of "+userRating+"?(Y/N)");
+		char userInput = input.nextLine().toUpperCase().charAt(0);
+		while(!(Character.toString(userInput).matches("Y")) && !(Character.toString(userInput).matches("N"))){
+			System.err.println("\n|      Invalid Input.     |\n|                  	  |\n|---Type in 'M' or 'F'!---|\n|                  	  |\n|       Press Enter.      |");
+			input.nextLine();
+			System.out.println("Do you want to give the movie "+ load.getItems().get(movieId).getMovieTitle()+" ("+load.getItems().get(movieId).getReleaseDate()+") a rating of "+userRating+"?(Y/N)");
+			userInput = input.nextLine().toUpperCase().charAt(0);
+		}
+		if(Character.toString(userInput).matches("Y")){
+			//add a new rating of the user definied parameters. MovieID+1 because indexing starts at 0 where Ids start from 1.
+		load.getRatings().add(new Rating(userId,movieId+1,userRating,unixTime));
+		System.out.println("Review added!");
+		}
+		else{
+			System.out.println("The review was not added. Going back to the main menu..");
+		}
 	}
 	
 	

@@ -178,6 +178,215 @@ public class Item {
 
 		return details;
 	}
+
+	public int getMovieId() {
+		return movieId;
+	}
+
+	public void setMovieId(int movieId) {
+		this.movieId = movieId;
+	}
+
+	public String getMovieTitle() {
+		return movieTitle;
+	}
+
+	public void setMovieTitle(String movieTitle) {
+		this.movieTitle = movieTitle;
+	}
+
+	public int getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(int releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public short getVideoReleaseDate_Day() {
+		return videoReleaseDate_Day;
+	}
+
+	public void setVideoReleaseDate_Day(short videoReleaseDate_Day) {
+		this.videoReleaseDate_Day = videoReleaseDate_Day;
+	}
+
+	public short getVideoReleaseDate_Month() {
+		return videoReleaseDate_Month;
+	}
+
+	public void setVideoReleaseDate_Month(short videoReleaseDate_Month) {
+		this.videoReleaseDate_Month = videoReleaseDate_Month;
+	}
+
+	public short getVideoReleaseDate_Year() {
+		return videoReleaseDate_Year;
+	}
+
+	public void setVideoReleaseDate_Year(short videoReleaseDate_Year) {
+		this.videoReleaseDate_Year = videoReleaseDate_Year;
+	}
+
+	public String getMovieUrl() {
+		return movieUrl;
+	}
+
+	public void setMovieUrl(String movieUrl) {
+		this.movieUrl = movieUrl;
+	}
+
+	public short getUnknownGenre() {
+		return unknownGenre;
+	}
+
+	public void setUnknownGenre(short unknownGenre) {
+		this.unknownGenre = unknownGenre;
+	}
+
+	public short getActionGenre() {
+		return actionGenre;
+	}
+
+	public void setActionGenre(short actionGenre) {
+		this.actionGenre = actionGenre;
+	}
+
+	public short getAdventureGenre() {
+		return adventureGenre;
+	}
+
+	public void setAdventureGenre(short adventureGenre) {
+		this.adventureGenre = adventureGenre;
+	}
+
+	public short getAnimationGenre() {
+		return animationGenre;
+	}
+
+	public void setAnimationGenre(short animationGenre) {
+		this.animationGenre = animationGenre;
+	}
+
+	public short getChildrensGenre() {
+		return childrensGenre;
+	}
+
+	public void setChildrensGenre(short childrensGenre) {
+		this.childrensGenre = childrensGenre;
+	}
+
+	public short getComedyGenre() {
+		return comedyGenre;
+	}
+
+	public void setComedyGenre(short comedyGenre) {
+		this.comedyGenre = comedyGenre;
+	}
+
+	public short getCrimeGenre() {
+		return crimeGenre;
+	}
+
+	public void setCrimeGenre(short crimeGenre) {
+		this.crimeGenre = crimeGenre;
+	}
+
+	public short getDocumentaryGenre() {
+		return documentaryGenre;
+	}
+
+	public void setDocumentaryGenre(short documentaryGenre) {
+		this.documentaryGenre = documentaryGenre;
+	}
+
+	public short getDramaGenre() {
+		return dramaGenre;
+	}
+
+	public void setDramaGenre(short dramaGenre) {
+		this.dramaGenre = dramaGenre;
+	}
+
+	public short getFantasyGenre() {
+		return fantasyGenre;
+	}
+
+	public void setFantasyGenre(short fantasyGenre) {
+		this.fantasyGenre = fantasyGenre;
+	}
+
+	public short getFilm_noirGenre() {
+		return film_noirGenre;
+	}
+
+	public void setFilm_noirGenre(short film_noirGenre) {
+		this.film_noirGenre = film_noirGenre;
+	}
+
+	public short getHorrorGenre() {
+		return horrorGenre;
+	}
+
+	public void setHorrorGenre(short horrorGenre) {
+		this.horrorGenre = horrorGenre;
+	}
+
+	public short getMusicalGenre() {
+		return musicalGenre;
+	}
+
+	public void setMusicalGenre(short musicalGenre) {
+		this.musicalGenre = musicalGenre;
+	}
+
+	public short getMysteryGenre() {
+		return mysteryGenre;
+	}
+
+	public void setMysteryGenre(short mysteryGenre) {
+		this.mysteryGenre = mysteryGenre;
+	}
+
+	public short getRomanceGenre() {
+		return romanceGenre;
+	}
+
+	public void setRomanceGenre(short romanceGenre) {
+		this.romanceGenre = romanceGenre;
+	}
+
+	public short getSci_fiGenre() {
+		return sci_fiGenre;
+	}
+
+	public void setSci_fiGenre(short sci_fiGenre) {
+		this.sci_fiGenre = sci_fiGenre;
+	}
+
+	public short getThrillerGenre() {
+		return thrillerGenre;
+	}
+
+	public void setThrillerGenre(short thrillerGenre) {
+		this.thrillerGenre = thrillerGenre;
+	}
+
+	public short getWarGenre() {
+		return warGenre;
+	}
+
+	public void setWarGenre(short warGenre) {
+		this.warGenre = warGenre;
+	}
+
+	public short getWesternGenre() {
+		return westernGenre;
+	}
+
+	public void setWesternGenre(short westernGenre) {
+		this.westernGenre = westernGenre;
+	}
+	
 	
 	
 
