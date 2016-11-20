@@ -8,14 +8,14 @@ public class User {
 	private int age;
 	private char gender;
 	private String occupation;
-	private int zipCode;
+	private String zipCode;
 	
-	public User(int userId, String name, String surname, int age, char gender, String occupation, int zipCode){
+	public User(int userId, String name, String surname, int age, char gender, String occupation, String zipCode){
 		this.userId = userId;
 		this.name = name;
 		this.surname = surname;
 		this.age = age;
-		this.gender = gender;
+		setGender(gender);
 		this.occupation = occupation;
 		this.zipCode = zipCode;
 		
@@ -66,7 +66,13 @@ public class User {
 	}
 
 	public void setGender(char gender) {
-		this.gender = gender;
+		if(gender == 'm' || gender == 'M'){
+			this.gender = 'M';
+		}
+		else if(gender == 'f' || gender == 'F'){
+			this.gender = 'F';
+		}
+		else this.gender = 'U';
 	}
 
 	public String getOccupation() {
@@ -77,11 +83,11 @@ public class User {
 		this.occupation = occupation;
 	}
 
-	public int getZipCode() {
+	public String getZipCode() {
 		return zipCode;
 	}
 
-	public void setZipCode(int zipCode) {
+	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 //End of Getters and Setters

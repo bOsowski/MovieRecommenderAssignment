@@ -1,8 +1,9 @@
 package app.wrapperClasses;
 
-import app.Load;
+import java.text.DecimalFormat;
 
-public class Item {
+
+public class Item{
 	
 	private int movieId;
 	private String movieTitle;
@@ -35,21 +36,29 @@ public class Item {
 	private short warGenre;
 	private short westernGenre;
 	
-	private int overallRating;
+	private String genres = "";
+	
+	private double overallRating = 0;
+	private int amountOfRatings = 0;
 
-	public Item(int movieId, String movieTitle, int releaseDate, String videoReleaseDate, String movieUrl, short unknownGenre,
+	public Item(String movieId, String movieTitle, String releaseDate, String videoReleaseDate, String movieUrl,
+			short unknownGenre,
 			short actionGenre, short adventureGenre, short animationGenre, short childrensGenre,
 			short comedyGenre, short crimeGenre, short documentaryGenre, short dramaGenre,
 			short fantasyGenre, short film_noirGenre, short horrorGenre, short musicalGenre,
 			short mysteryGenre, short romanceGenre, short sci_fiGenre, short thrillerGenre,
 			short warGenre, short westernGenre) {
 		
-		this.movieId = movieId;
-		this.movieTitle = movieTitle;
-		this.releaseDate = releaseDate;
+		setMovieId(movieId);
+		setMovieTitle(movieTitle);
+		setReleaseDate(releaseDate);
+		setMovieUrl(movieUrl);
 		
 		//this.videoReleaseDate = videoReleaseDate;
 		//take the videoReleaseDate and parse it into three different variables day,month,year.
+		if(videoReleaseDate.contains("-")){
+			
+		
 		String[] vidReleaseDate = videoReleaseDate.split("-");
 		
 		if(vidReleaseDate[1].equalsIgnoreCase("Jan")){
@@ -92,9 +101,8 @@ public class Item {
 		this.videoReleaseDate_Day = Short.parseShort(vidReleaseDate[0]);
 		this.videoReleaseDate_Month = Short.parseShort(vidReleaseDate[1]);
 		this.videoReleaseDate_Year = Short.parseShort(vidReleaseDate[2]);
-
+		}
 		
-		this.movieUrl = movieUrl;
 		this.unknownGenre = unknownGenre;
 		this.actionGenre = actionGenre;
 		this.adventureGenre = adventureGenre;
@@ -114,13 +122,78 @@ public class Item {
 		this.thrillerGenre = thrillerGenre;
 		this.warGenre = warGenre;
 		this.westernGenre = westernGenre;
+		addGenres();
+	}
+	
+	public String getGenres(){
+		return this.genres;
+	}
+	
+	public void addGenres(){
+		if(unknownGenre == 1){
+			this.genres = genres+" unknown ";
+		}		
+		if(actionGenre == 1){
+			this.genres = genres+" action ";
+		}		
+		if(adventureGenre  == 1){
+			this.genres = genres+" adventure ";
+		}		
+		if(animationGenre == 1){
+			this.genres = genres+" animation ";
+		}		
+		if(childrensGenre == 1){
+			this.genres = genres+" childrens ";
+		}	
+		if(comedyGenre == 1){
+			this.genres = genres+" comedy ";
+		}	
+		if(crimeGenre == 1){
+			this.genres = genres+" crime ";
+		}	
+		if(documentaryGenre == 1){
+			this.genres = genres+" documentary ";
+		}
+		if(dramaGenre == 1){
+			this.genres = genres+" drama ";
+		}
+		if(fantasyGenre == 1){
+			this.genres = genres+" fantasy ";
+		}
+		if(film_noirGenre == 1){
+			this.genres = genres+" film noir ";
+		}	
+		if(horrorGenre == 1){
+			this.genres = genres+" horror ";
+		}
+		if(musicalGenre == 1){
+			this.genres = genres+" musical ";
+		}
+		if(mysteryGenre == 1){
+			this.genres = genres+" mystery ";
+		}
+		if(romanceGenre == 1){
+			this.genres = genres+" romance ";
+		}
+		if(sci_fiGenre == 1){
+			this.genres = genres+" sci fi ";
+		}
+		if(thrillerGenre == 1){
+			this.genres = genres+" thriller ";
+		}
+		if(warGenre == 1){
+			this.genres = genres+" war ";
+		}
+		if(westernGenre == 1){
+			this.genres = genres+" western ";
+		}
 	}
 	
 	@Override
 	public String toString(){
 		
 		String details = ("\nItem [movieId=" + movieId + ", movieTitle=" + movieTitle + ", releaseDate=" + releaseDate
-				+ ", videoReleaseDate=" + videoReleaseDate_Day +"-"+ videoReleaseDate_Month+"-" + videoReleaseDate_Year +", movieUrl=" + movieUrl);
+			  + " Overall Rating: "+ (new DecimalFormat("##.#").format((overallRating/amountOfRatings))) +" Amount of Ratings: "+amountOfRatings +", movieUrl=" + movieUrl);
 		
 		if(unknownGenre == 1){
 			details = details + (", unknownGenre");
@@ -185,8 +258,36 @@ public class Item {
 		return details;
 	}
 
-	public void setOverallRating(int overallRating){
-		this.overallRating = overallRating;
+	public int compareToDate(Item that)
+	{
+		if (this.releaseDate < that.getReleaseDate()) return +1;
+		if (this.releaseDate > that.getReleaseDate()) return -1;
+		return 0;
+	}
+	
+	public int compareToRating(Item that) {
+		if (getOverallRating() < that.getOverallRating()) return +1;
+		if (getOverallRating() > that.getOverallRating()) return -1;
+		return 0;
+	}
+	
+	public int compareToPopularity(Item that) {
+		if (getAmountOfRatings() < that.getAmountOfRatings()) return +1;
+		if (getAmountOfRatings() > that.getAmountOfRatings()) return -1;
+		return 0;
+	}
+	
+	public int getAmountOfRatings(){
+		return this.amountOfRatings;
+	}
+	
+	public void setOverallRating(double overallRating){
+		amountOfRatings++;
+		this.overallRating = this.overallRating + overallRating;
+	}
+	
+	public double getOverallRating(){
+		return this.overallRating/this.amountOfRatings;
 	}
 	
 	
@@ -194,8 +295,11 @@ public class Item {
 		return movieId;
 	}
 
-	public void setMovieId(int movieId) {
-		this.movieId = movieId;
+	public void setMovieId(String movieId) {
+		if(movieId.matches("-?\\d+")){
+		this.movieId = Integer.parseInt(movieId);
+		}
+		else this.movieId = 0;
 	}
 
 	public String getMovieTitle() {
@@ -203,15 +307,20 @@ public class Item {
 	}
 
 	public void setMovieTitle(String movieTitle) {
+		if(movieTitle != null && !movieTitle.isEmpty()){
 		this.movieTitle = movieTitle;
+		}
+		else this.movieTitle = "unknown";
 	}
 
 	public int getReleaseDate() {
 		return releaseDate;
 	}
 
-	public void setReleaseDate(int releaseDate) {
-		this.releaseDate = releaseDate;
+	public void setReleaseDate(String releaseDate) {
+		if(releaseDate.length()==4 && releaseDate.matches("-?\\d+") ){
+		this.releaseDate = Integer.parseInt(releaseDate);
+		}
 	}
 
 	public short getVideoReleaseDate_Day() {
@@ -243,7 +352,10 @@ public class Item {
 	}
 
 	public void setMovieUrl(String movieUrl) {
+		if(movieUrl.contains("http") || movieUrl.contains(".")){
 		this.movieUrl = movieUrl;
+		}
+		else this.movieUrl = "unknown";
 	}
 
 	public short getUnknownGenre() {
@@ -397,6 +509,11 @@ public class Item {
 	public void setWesternGenre(short westernGenre) {
 		this.westernGenre = westernGenre;
 	}
+
+
+
+
+
 	
 	
 	

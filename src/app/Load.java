@@ -19,29 +19,34 @@ public class Load {
 	ArrayList<Genre> genres = new ArrayList<Genre>();
 	
 	public Load(){
-		readUsersFile("moviedata_small/users5.dat");
+		readUsersFile("data_movieLens/users.dat");
 	//	System.out.println(users);
 	//	System.out.println("number of users: "+ users.size());
-		readRatingsFile("moviedata_small/ratings5.dat");
+		readRatingsFile("data_movieLens/ratings.dat");
 	//	System.out.println(ratings);
 	//	System.out.println("number of ratings: "+ ratings.size());
-		readItemsFile("moviedata_small/items5.dat");
+		readItemsFile("data_movieLens/items.dat");
+		addOverallRating();
 	//	System.out.println(items);
 	//	System.out.println("number of items: "+ items.size());
-		readOccupationsFile("moviedata_small/occupation.dat");
+		//readOccupationsFile("data_movieLens/occupation.dat");
 	//	System.out.println(occupations);
 	//	System.out.println("number of occupations: "+ occupations.size());
-		readGenresFile("moviedata_small/genre.dat");
+		readGenresFile("data_movieLens/genre.dat");
 	//	System.out.println(genres);
 	//	System.out.println("number of genres: "+ genres.size());
 		
-		for(int i = 0; i<ratings.size(); i++){
-			
-			//getItems().get(i).setOverallRating(ratings.get(getItems().get(i).getMovieId()-1).getRating());
-			getItems().get(i).setOverallRating(getRatings().get(getItems().get(i).getMovieId()-1).getRating());
-		}
 	}
-	
+	public void addOverallRating(){
+	for(int i = 0; i<ratings.size(); i++){
+		//for each rating in the list, assign the rating's movieID the desired overall rating.
+		
+		int ratingsMovieId = ratings.get(i).getItemId()-1;
+		double rating = ratings.get(i).getRating();
+		items.get(ratingsMovieId).setOverallRating(rating);
+		
+	}
+	}
 	
 	
 	
@@ -95,7 +100,7 @@ public class Load {
 
 	          // output user data to console.
 	          if (userTokens.length == 7) {     	  
-	        	  users.add(new User(Integer.parseInt(userTokens[0]),userTokens[1],userTokens[2],Integer.parseInt(userTokens[3]),userTokens[4].charAt(0),userTokens[5],Integer.parseInt(userTokens[6])));
+	        	  users.add(new User(Integer.parseInt(userTokens[0]),userTokens[1],userTokens[2],Integer.parseInt(userTokens[3]),userTokens[4].charAt(0),userTokens[5],userTokens[6]));
 	          }else
 	          {
 	              try {
@@ -124,7 +129,7 @@ public class Load {
 
 	          // output user data to console.
 	          if (ratingTokens.length == 4) {     	  
-	        	ratings.add(new Rating(Integer.parseInt(ratingTokens[0]),Integer.parseInt(ratingTokens[1]),Short.parseShort(ratingTokens[2]),Long.parseLong(ratingTokens[3])));  
+	        	ratings.add(new Rating(ratingTokens[0],ratingTokens[1],ratingTokens[2],ratingTokens[3]));  
 	          }else
 	          {
 	              try {
@@ -138,7 +143,7 @@ public class Load {
 	}
 	
 	//reads the items file and wraps each user in the Item class and adds each instance to the items arraylist.
-	public void readItemsFile(String fileName){
+	public void readItemsFile(String fileName){	
 		
 		  File itemsFile = new File(fileName);
 	      In inItems = new In(itemsFile);
@@ -150,18 +155,30 @@ public class Load {
 
 	          // parse user details string
 	          String[] itemTokens = itemDetails.split(delims);
-
+	         // if(itemTokens[0] == null || itemTokens[1] == null || itemTokens[2] == null || itemTokens[3] == null || itemTokens[4] == null || itemTokens[5] == null || itemTokens[6] == null || itemTokens[7] == null || itemTokens[8] == null || itemTokens[9] == null || itemTokens[10] == null || itemTokens[11] == null || itemTokens[12] == null || itemTokens[13] == null || itemTokens[14] == null || itemTokens[15] == null || itemTokens[16] == null || itemTokens[17] == null || itemTokens[18] == null || itemTokens[19] == null || itemTokens[20] == null || itemTokens[21] == null || itemTokens[22] == null)
+	         // {
 	          // output user data to console.
 	          if (itemTokens.length == 23) {   
 	        	  String[] titleAndDate = itemTokens[1].split(" ");	//make an array of stings of each word split by a 'space'.
 	        	  String vidUnformattedDate = titleAndDate[titleAndDate.length-1];	//take the last word from title, which is the date in the following format: (date).
 	        	  String vidTitle = itemTokens[1].substring(0, itemTokens[1].length()-vidUnformattedDate.length());	//take the date away from the title of the movie.
 	        	  String formattedVidDate = vidUnformattedDate.substring(1, vidUnformattedDate.length()-1);	//remove the brackets which the date is inside of.
-	        	  int vidReleaseDate = Integer.parseInt(formattedVidDate);	//parse the formattedVidDate String into an int.
+	        	  int vidDate;
+	        	  if(formattedVidDate.matches("-?\\d+")){
+	        	  vidDate = Integer.parseInt(formattedVidDate);	//parse the formattedVidDate String into an int.
+	        	  }
+	        	  else vidDate = 0;
 	        	  
-	        	  items.add(new Item(Integer.parseInt(itemTokens[0]), vidTitle, vidReleaseDate, itemTokens[2],itemTokens[3],Short.parseShort(itemTokens[4]),Short.parseShort(itemTokens[5]),Short.parseShort(itemTokens[6]),Short.parseShort(itemTokens[7]),Short.parseShort(itemTokens[8]),Short.parseShort(itemTokens[9]),Short.parseShort(itemTokens[10]),Short.parseShort(itemTokens[11]),Short.parseShort(itemTokens[12]),Short.parseShort(itemTokens[13]),Short.parseShort(itemTokens[14]),Short.parseShort(itemTokens[15]),Short.parseShort(itemTokens[16]),Short.parseShort(itemTokens[17]),Short.parseShort(itemTokens[18]),Short.parseShort(itemTokens[19]),Short.parseShort(itemTokens[20]),Short.parseShort(itemTokens[21]),Short.parseShort(itemTokens[22])));  
-	          }else
-	          {
+	        	  String vidReleaseDate;
+	        	  if(itemTokens[2].contains("-")){
+	        	  vidReleaseDate = itemTokens[2];
+	        	  }
+	        	  else vidReleaseDate = "00-Jan-0000";
+	        	  
+	        	  items.add(new Item(itemTokens[0], vidTitle, String.valueOf(vidDate), vidReleaseDate,itemTokens[3],Short.parseShort(itemTokens[4]),Short.parseShort(itemTokens[5]),Short.parseShort(itemTokens[6]),Short.parseShort(itemTokens[7]),Short.parseShort(itemTokens[8]),Short.parseShort(itemTokens[9]),Short.parseShort(itemTokens[10]),Short.parseShort(itemTokens[11]),Short.parseShort(itemTokens[12]),Short.parseShort(itemTokens[13]),Short.parseShort(itemTokens[14]),Short.parseShort(itemTokens[15]),Short.parseShort(itemTokens[16]),Short.parseShort(itemTokens[17]),Short.parseShort(itemTokens[18]),Short.parseShort(itemTokens[19]),Short.parseShort(itemTokens[20]),Short.parseShort(itemTokens[21]),Short.parseShort(itemTokens[22])));  
+	        	  
+	          }
+	          else{
 	              try {
 					throw new Exception("Invalid member length: "+itemTokens.length);
 				} catch (Exception e) {
@@ -169,8 +186,14 @@ public class Load {
 					e.printStackTrace();
 				}
 	          }
-	      }
+	         // }
+	        //  else{
+	        //	 items.add(new Item(0,"a",0,"a", "a",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+	         // }
+	          }
+	      
 	}
+	
 	
 	
 	public void readOccupationsFile(String fileName){

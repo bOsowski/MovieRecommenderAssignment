@@ -9,11 +9,11 @@ public class Rating {
 	short rating;
 	long timestamp;
 
-	public Rating(int userId, int itemId, short rating, long timestamp) {
-		this.userId = userId;
-		this.itemId = itemId;
-		this.rating = rating;
-		this.timestamp = timestamp;
+	public Rating(String userId, String itemId, String rating, String timestamp) {
+		setUserId(userId);
+		setItemId(itemId);
+		setRating(rating);
+		setTimestamp(timestamp);
 		
 		
 	}
@@ -40,8 +40,11 @@ public class Rating {
 	}
 
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserId(String userId) {
+		if(userId != null && !userId.isEmpty() && userId.matches("-?\\d+")){
+			this.userId = Integer.parseInt(userId);
+		}
+		else this.userId = 0;
 	}
 
 
@@ -50,8 +53,11 @@ public class Rating {
 	}
 
 
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
+	public void setItemId(String itemId) {
+		if(itemId != null && !itemId.isEmpty() && itemId.matches("-?\\d+")){
+			this.itemId = Integer.parseInt(itemId);
+		}
+		else this. itemId = 0;
 	}
 
 
@@ -60,8 +66,20 @@ public class Rating {
 	}
 
 
-	public void setRating(short rating) {
-		this.rating = rating;
+	public void setRating(String ratingString) {
+		if(ratingString != null && !ratingString.isEmpty() && ratingString.matches("-?\\d+")){
+			Short rating = Short.parseShort(ratingString);
+			if(rating>=5){
+				this.rating = 5;
+			}
+			else if(rating<=-5){
+				this.rating = -5;
+			}
+			else if(rating >= -5 && rating <= 5){
+				this.rating = rating;
+			}
+		}		
+		else this.rating = 0;
 	}
 
 
@@ -70,8 +88,11 @@ public class Rating {
 	}
 
 
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
+	public void setTimestamp(String timestamp) {
+		if(timestamp != null && !timestamp.isEmpty() && timestamp.matches("-?\\d+")){
+		this.timestamp = Long.parseLong(timestamp);
+		}
+		else this.timestamp = 0;
 	}
 //End of Getters and Setters
 }
