@@ -11,6 +11,7 @@ import app.wrapperClasses.User;
 public class Driver {
 	private Scanner input = new Scanner(System.in);
 	private Load load;
+	int amountOfLikedMoviesForRecommendation = 20;
 	
 	public static void main(String[] args) {
 		new Driver();
@@ -128,7 +129,9 @@ public class Driver {
 			break;
 			
 		case 2:
-			recommendAlgorithm();
+			int userId = logIn();
+			while (userId == 0) userId = logIn();
+			recommendAlgorithm(userId);	
 			break;
 		}
 	}
@@ -187,12 +190,10 @@ public class Driver {
 	
 	
 	
+
+	private void recommendAlgorithm(int userId){
 	//see what movies did the client like.
 	//see what movies did others like that also liked the client's movie
-	private void recommendAlgorithm(){
-		int userId = logIn();
-		while (userId == 0) userId = logIn();
-		int amountOfLikedMovies = 8;
 		
 		//gets all rated movies of the customer	1
 		ArrayList<Integer> watchedMovies = new ArrayList<Integer>(); 
@@ -209,10 +210,10 @@ public class Driver {
 				likedMovieIds.add(load.getRatings().get(i).getItemId());
 			}
 		}
-		System.out.println("Current User's amount of liked movies    "+ likedMovieIds.size()+" Current User's liked movies    " + likedMovieIds );
+		//System.out.println("Current User's amount of liked movies    "+ likedMovieIds.size()+" Current User's liked movies    " + likedMovieIds );
 		
 		
-		//get users that really liked same movies as customer <UserWithCommonLikes> and the movies they like. 0
+		//get users that really liked same movies as customer <UserWithCommonLikes> and the movies they like.
 		ArrayList<UserWithCommonLikes> usersWithCommonLikes = new ArrayList<UserWithCommonLikes>(); 
 		
 		for(Integer usersLikedMovie: likedMovieIds){
@@ -226,9 +227,8 @@ public class Driver {
 			}
 		}
 		
-		
-		
-		System.out.println("UsersWithCommonLikes" + usersWithCommonLikes);
+
+		//System.out.println("UsersWithCommonLikes" + usersWithCommonLikes);
 		
 		//remove duplicate users and add all movies to the first user with the same ID
 		for(int c = 0; c<usersWithCommonLikes.size();c++){
@@ -246,7 +246,7 @@ public class Driver {
 		//removing the users that only have X common liked movies
 		for(int i = 0; i<usersWithCommonLikes.size(); i++){
 				String[] amountOfMoviesInString = usersWithCommonLikes.get(i).getFavouriteMovies().split("\\s+");
-				if(amountOfMoviesInString.length <= amountOfLikedMovies){
+				if(amountOfMoviesInString.length <= amountOfLikedMoviesForRecommendation){
 					usersWithCommonLikes.remove(i);
 					i=0;
 				}
@@ -264,16 +264,43 @@ public class Driver {
 			}
 		}
 		
-		System.err.println("likedMovies: "+likedMovieIds);
-		System.out.println("watchedMovies: "+watchedMovies);
-		System.err.println("RecommendedMovies: "+recommendedMovies);
-		System.out.println("Amount of recommendations: "+recommendedMovies.size());
+	//	System.err.println("likedMovies: "+likedMovieIds);
+	//	System.out.println("watchedMovies: "+watchedMovies);
+	//	System.err.println("RecommendedMovies: "+recommendedMovies);
+	//	System.out.println("Amount of recommendations: "+recommendedMovies.size());
 		
 		recommendedMovies.removeAll(watchedMovies);
 
-		System.err.println("Recommended movies that the user didn't watch: "+recommendedMovies);
-		System.out.println("Amount of recommendations: "+recommendedMovies.size());
 		
+		
+		ArrayList<Item> recommendations = new ArrayList<Item>();
+		for(Integer movieId: recommendedMovies){
+			for(Item movie: load.getItems()){
+				
+				if(movie.getMovieId() == movieId){
+					recommendations.add(movie);
+				}
+				
+			}
+		}
+		
+		if(recommendations.size() < 30){
+			amountOfLikedMoviesForRecommendation--;
+			recommendAlgorithm(userId);
+		}
+		else{
+		System.out.println("Amount of recommendations: "+recommendedMovies.size());
+		System.out.println("How would you like your movies sorted?(rating/popularity/date): ");
+		String sortingType = input.nextLine().toLowerCase();
+		while(!sortingType.contains("popularity") && !sortingType.contains("rating") && !sortingType.contains("date")){
+		System.err.println("Wrong Input!");
+		System.out.println("How would you like your movies sorted?(rating/popularity/date): ");
+		sortingType = input.nextLine().toLowerCase();
+		}
+		SelectionSort.sort(recommendations, sortingType);
+		System.out.println(recommendations);
+		amountOfLikedMoviesForRecommendation = 20;
+		}
 	}
 	
 	
