@@ -285,8 +285,15 @@ public class Driver {
 		}
 		
 		if(recommendations.size() < 30){
+			if(amountOfLikedMoviesForRecommendation!=0){
 			amountOfLikedMoviesForRecommendation--;
 			recommendAlgorithm(userId);
+			}
+			else {
+				System.err.println("Not enough ratings for recommendations!");
+				amountOfLikedMoviesForRecommendation = 20;
+				mainMenu();
+			}
 		}
 		else{
 		System.out.println("Amount of recommendations: "+recommendedMovies.size());
