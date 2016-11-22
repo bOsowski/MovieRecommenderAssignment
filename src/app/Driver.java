@@ -1,5 +1,6 @@
 package app;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeSet;
@@ -566,6 +567,14 @@ public class Driver {
 		String choice = input.nextLine();
 		if(choice.contains("y") || choice.contains("Y")){
 		load.getUsers().add(new User(load.getUsers().size()+1,userName,userSurname,userAge,userGender,userOccupation,userZipCode));
+		/////////////////////////////////////////////
+		try {
+			load.writeToFile("Users",load.getUsers());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//////////////////////////////////////////
 		System.out.println("New user added!");
 		}
 		else if(choice.contains("n") || choice.contains("N")){
@@ -669,6 +678,14 @@ public class Driver {
 		String choice = input.nextLine();
 		if(choice.contains("y")){
 		load.getItems().add(new Item(String.valueOf(load.getItems().size()+1),movieTitle,String.valueOf(movieReleaseYear),videoReleaseDate,movieUrl,unknown,action,adventure,animation,childrens,comedy,crime,documentary,drama,fantasy,film_noir,horror,musical,mystery,romance,sci_fi,thriller,war,western));	
+		/////////////////////////////////////////////
+		try {
+			load.writeToFile("Items",load.getItems());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//////////////////////////////////////////
 		System.out.println("New movie added!");
 		}
 		else if(choice.contains("n")){
@@ -701,6 +718,14 @@ public class Driver {
 			if(Character.toString(userInput).matches("Y")){
 			//remove user.
 				load.getUsers().remove(userId-1);
+				/////////////////////////////////////////////
+				try {
+					load.writeToFile("Users",load.getUsers());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//////////////////////////////////////////
 				System.out.println("The user was removed!");
 			}
 			else{
@@ -788,6 +813,14 @@ public class Driver {
 		if(Character.toString(userInput).matches("Y")){
 			//add a new rating of the user definied parameters. MovieID+1 because indexing starts at 0 where Ids start from 1.
 		load.getRatings().add(new Rating(String.valueOf(userId),String.valueOf(movieId),String.valueOf(userRating),String.valueOf(unixTime)));
+		/////////////////////////////////////////////
+		try {
+			load.writeToFile("Ratings",load.getRatings());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//////////////////////////////////////////
 		System.out.println("Review added!");
 		}
 		else{

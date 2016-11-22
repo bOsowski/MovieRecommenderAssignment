@@ -1,10 +1,16 @@
 package app;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import app.wrapperClasses.Genre;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import app.wrapperClasses.Item;
-import app.wrapperClasses.Occupation;
 import app.wrapperClasses.Rating;
 import app.wrapperClasses.User;
 import edu.princeton.cs.introcs.In;
@@ -15,39 +21,134 @@ public class Load {
 	ArrayList<Rating> ratings = new ArrayList<Rating>();	//arrayList holding ratings.
 	ArrayList<Item> items = new ArrayList<Item>(); //arrayList holding items.
 	
-	ArrayList<Occupation> occupations = new ArrayList<Occupation>();
-	ArrayList<Genre> genres = new ArrayList<Genre>();
+	//ArrayList<Occupation> occupations = new ArrayList<Occupation>();
+	//ArrayList<Genre> genres = new ArrayList<Genre>();
 	
 	public Load(){
-		readUsersFile("data_movieLens/users.dat");
-	//	System.out.println(users);
-	//	System.out.println("number of users: "+ users.size());
-		readRatingsFile("data_movieLens/ratings.dat");
-	//	System.out.println(ratings);
-	//	System.out.println("number of ratings: "+ ratings.size());
-		readItemsFile("data_movieLens/items.dat");
+		try {
+			System.err.println("Loading users..");
+			loadUsersFromXML("Users.xml");
+			System.err.println("Loading Ratings..");
+			loadRatingsFromXML("Ratings.xml");
+			System.err.println("Loading Items..");
+			loadItemsFromXML("Items.xml");
+		} catch (Exception e1) {
+			
+			readUsersFile("data_movieLens/users.dat");
+			readRatingsFile("data_movieLens/ratings.dat");
+			readItemsFile("data_movieLens/items.dat");
+			
+
+			e1.printStackTrace();
+		}
+
+		try {
+			writeToFile("Users",users);
+			writeToFile("Ratings",ratings);
+			writeToFile("Items",items);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		addOverallRating();
-	//	System.out.println(items);
-	//	System.out.println("number of items: "+ items.size());
-		//readOccupationsFile("data_movieLens/occupation.dat");
-	//	System.out.println(occupations);
-	//	System.out.println("number of occupations: "+ occupations.size());
-		readGenresFile("data_movieLens/genre.dat");
-	//	System.out.println(genres);
-	//	System.out.println("number of genres: "+ genres.size());
-		
-	}
-	public void addOverallRating(){
-	for(int i = 0; i<ratings.size(); i++){
-		//for each rating in the list, assign the rating's movieID the desired overall rating.
-		
-		int ratingsMovieId = ratings.get(i).getItemId()-1;
-		double rating = ratings.get(i).getRating();
-		items.get(ratingsMovieId).setOverallRating(rating);
-		
-	}
 	}
 	
+	
+	
+
+
+	@SuppressWarnings("rawtypes")
+	public void writeToFile(String fileName,ArrayList list ) throws IOException{
+    XStream xstream = new XStream(new DomDriver());
+    ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter(fileName+".xml"));
+    out.writeObject(list);
+    out.close();
+	}
+	
+	
+	
+	
+	 @SuppressWarnings("unchecked")
+	  void loadUsersFromXML(String file) throws Exception
+	  {
+	    ObjectInputStream objInputStream = null;
+	    try
+	    {
+	      XStream xstream = new XStream(new DomDriver());
+	      objInputStream = xstream.createObjectInputStream(new FileReader(file));
+	      users       = (ArrayList<User>)     objInputStream.readObject();
+
+	    }
+	    finally
+	    {
+	      if (objInputStream != null)
+	      {
+	    	  objInputStream.close();
+	      }
+	    }
+	  }
+	 @SuppressWarnings("unchecked")
+	  void loadItemsFromXML(String file) throws Exception
+	  {
+	    ObjectInputStream objInputStream = null;
+	    try
+	    {
+	      XStream xstream = new XStream(new DomDriver());
+	      objInputStream = xstream.createObjectInputStream(new FileReader(file));
+	      items       = (ArrayList<Item>)     objInputStream.readObject();
+
+	    }
+	    finally
+	    {
+	      if (objInputStream != null)
+	      {
+	    	  objInputStream.close();
+	      }
+	    }
+	  }
+	 @SuppressWarnings("unchecked")
+	  void loadRatingsFromXML(String file) throws Exception
+	  {
+	    ObjectInputStream objInputStream = null;
+	    try
+	    {
+	      XStream xstream = new XStream(new DomDriver());
+	      objInputStream = xstream.createObjectInputStream(new FileReader(file));
+	      ratings       = (ArrayList<Rating>)     objInputStream.readObject();
+
+	    }
+	    finally
+	    {
+	      if (objInputStream != null)
+	      {
+	    	  objInputStream.close();
+	      }
+	    }
+	  }
+/*
+	  void store(File file) throws Exception
+	  {
+	    XStream xstream = new XStream(new DomDriver());
+	    ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter(file));
+	    out.writeObject(userIndex);
+	    out.writeObject(emailIndex);
+	    out.writeObject(activitiesIndex);
+	    out.close(); 
+	  }
+	  
+	  */
+	  
+		
+		public void addOverallRating(){
+			for(int i = 0; i<ratings.size(); i++){
+				//for each rating in the list, assign the rating's movieID the desired overall rating.
+				
+				int ratingsMovieId = ratings.get(i).getItemId()-1;
+				double rating = ratings.get(i).getRating();
+				items.get(ratingsMovieId).setOverallRating(rating);
+			
+			}
+		}
 	
 	
 	public ArrayList<User> getUsers() {
@@ -67,18 +168,6 @@ public class Load {
 	}
 	public void setItems(ArrayList<Item> items) {
 		this.items = items;
-	}
-	public ArrayList<Occupation> getOccupations() {
-		return occupations;
-	}
-	public void setOccupations(ArrayList<Occupation> occupations) {
-		this.occupations = occupations;
-	}
-	public ArrayList<Genre> getGenres() {
-		return genres;
-	}
-	public void setGenres(ArrayList<Genre> genres) {
-		this.genres = genres;
 	}
 
 
@@ -194,49 +283,7 @@ public class Load {
 	      
 	}
 	
-	
-	
-	public void readOccupationsFile(String fileName){
-		
-		  File occupationsFile = new File(fileName);
-	      In inOccupations = new In(occupationsFile);
-	      while (!inOccupations.isEmpty()) {
-	          // get user and rating from data source
-	          String occupationDetails = inOccupations.readLine();
-	          
-	        	occupations.add(new Occupation(occupationDetails));  
-				}
-	}
-	
-	
-	
-	public void readGenresFile(String fileName){
-		
-		  File genresFile = new File(fileName);
-	      In inGenres = new In(genresFile);
-	        //each field is separated(delimited) by a '|'
-	      String delims = "[|]";
-	      while (!inGenres.isEmpty()) {
-	          // get user and rating from data source
-	          String genreDetails = inGenres.readLine();
 
-	          // parse user details string
-	          String[] genreTokens = genreDetails.split(delims);
-
-	          // output user data to console.
-	          if (genreTokens.length == 2) {     	  
-	        	  genres.add(new Genre(genreTokens[0],Short.parseShort(genreTokens[1])));
-	          }else
-	          {
-	              try {
-					throw new Exception("Invalid member length: "+genreTokens.length);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	          }
-	      }
-	}
 	
 	
 
