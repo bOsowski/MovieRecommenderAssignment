@@ -1,14 +1,16 @@
 package app;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import app.wrapperClasses.Item;
 import app.wrapperClasses.Rating;
@@ -59,10 +61,13 @@ public class Load {
 
 	@SuppressWarnings("rawtypes")
 	public void writeToFile(String fileName,ArrayList list ) throws IOException{
-    XStream xstream = new XStream(new DomDriver());
-    ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter(fileName+".xml"));
+  //  XStream xstream = new XStream(new DomDriver());
+   // ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter(fileName+".xml"));
+    ObjectOutputStream out =  new ObjectOutputStream(new GZIPOutputStream(new BufferedOutputStream ( new FileOutputStream(fileName+".xml") ) ) );
     out.writeObject(list);
     out.close();
+    
+  
 	}
 	
 	
@@ -74,8 +79,9 @@ public class Load {
 	    ObjectInputStream objInputStream = null;
 	    try
 	    {
-	      XStream xstream = new XStream(new DomDriver());
-	      objInputStream = xstream.createObjectInputStream(new FileReader(file));
+	     // XStream xstream = new XStream(new DomDriver());
+	     // objInputStream = xstream.createObjectInputStream(new FileReader(file));
+	      objInputStream = new ObjectInputStream(new GZIPInputStream(new BufferedInputStream ( new FileInputStream(file) ) ) );
 	      users       = (ArrayList<User>)     objInputStream.readObject();
 
 	    }
@@ -93,8 +99,9 @@ public class Load {
 	    ObjectInputStream objInputStream = null;
 	    try
 	    {
-	      XStream xstream = new XStream(new DomDriver());
-	      objInputStream = xstream.createObjectInputStream(new FileReader(file));
+	     // XStream xstream = new XStream(new DomDriver());
+	     // objInputStream = xstream.createObjectInputStream(new FileReader(file));
+	    	objInputStream = new ObjectInputStream(new GZIPInputStream(new BufferedInputStream ( new FileInputStream(file) ) ) );
 	      items       = (ArrayList<Item>)     objInputStream.readObject();
 
 	    }
@@ -112,8 +119,9 @@ public class Load {
 	    ObjectInputStream objInputStream = null;
 	    try
 	    {
-	      XStream xstream = new XStream(new DomDriver());
-	      objInputStream = xstream.createObjectInputStream(new FileReader(file));
+	      //XStream xstream = new XStream(new DomDriver());
+	     // objInputStream = xstream.createObjectInputStream(new FileReader(file));
+	    	objInputStream = new ObjectInputStream(new GZIPInputStream(new BufferedInputStream ( new FileInputStream(file) ) ) );
 	      ratings       = (ArrayList<Rating>)     objInputStream.readObject();
 
 	    }

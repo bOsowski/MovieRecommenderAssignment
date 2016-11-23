@@ -1,10 +1,12 @@
 package app.wrapperClasses;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
 
-public class Item{
+public class Item implements Serializable{
 	
+	private static final long serialVersionUID = 4559582146540733106L;
 	private int movieId;
 	private String movieTitle;
 	private int releaseDate;
@@ -38,7 +40,7 @@ public class Item{
 	
 	private String genres = "";
 	
-	private double overallRating = 0;
+	private double allRatings = 0;
 	private int amountOfRatings = 0;
 
 	public Item(String movieId, String movieTitle, String releaseDate, String videoReleaseDate, String movieUrl,
@@ -193,7 +195,7 @@ public class Item{
 	public String toString(){
 		
 		String details = ("\nItem [movieId=" + movieId + ", movieTitle=" + movieTitle + ", releaseDate=" + releaseDate
-			  + " Overall Rating: "+ (new DecimalFormat("##.#").format((overallRating/amountOfRatings))) +" Amount of Ratings: "+amountOfRatings +", movieUrl=" + movieUrl);
+			  + " Overall Rating: "+ (new DecimalFormat("##.#").format((allRatings/amountOfRatings))) +" Amount of Ratings: "+amountOfRatings +", movieUrl=" + movieUrl);
 		
 		if(unknownGenre == 1){
 			details = details + (", unknownGenre");
@@ -283,11 +285,11 @@ public class Item{
 	
 	public void setOverallRating(double overallRating){
 		amountOfRatings++;
-		this.overallRating = this.overallRating + overallRating;
+		this.allRatings = this.allRatings + allRatings;
 	}
 	
 	public double getOverallRating(){
-		return this.overallRating/this.amountOfRatings;
+		return this.allRatings/this.amountOfRatings;
 	}
 	
 	

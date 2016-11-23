@@ -1,8 +1,11 @@
 package app.wrapperClasses;
 
+import java.io.Serializable;
 
+public class Rating implements Serializable {
 
-public class Rating {
+	
+	private static final long serialVersionUID = -8819685504531647212L;
 	int userId;
 	int itemId;
 	String movieTitle;

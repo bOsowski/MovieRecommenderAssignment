@@ -1,7 +1,11 @@
 package app.wrapperClasses;
 
-public class User {
+import java.io.Serializable;
 
+public class User implements Serializable{
+
+
+	private static final long serialVersionUID = 1217871336685806741L;
 	private int userId;
 	private String name;
 	private String surname;
