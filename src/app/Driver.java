@@ -29,7 +29,6 @@ public class Driver {
 	private void mainMenu(){
 	
 		int choice=0;			
-				
 				System.out.println("\n1) Add user");
 				System.out.println("2) Remove user");
 				System.out.println("3) View users");
@@ -142,8 +141,8 @@ public class Driver {
 		int choice = 0;
 		
 			System.out.println("\nDisplay movies based on: ");
-			System.out.println("1) Rating");
-			System.out.println("2) Popularity");
+			System.out.println("1) Rating");	//highest rating
+			System.out.println("2) Popularity");//popularity = how many people rated the movie
 			System.out.println("3) Release Date");
 			
 			try
@@ -519,7 +518,7 @@ public class Driver {
 		SelectionSort.sort(load.getItems(),"popularity");
 		int amountOfMoviesDisplayed = 0;
 		for(int i = 0; i<load.getItems().size(); i++){
-			if(load.getItems().get(i).getOverallRating() > 2){
+			if(load.getItems().get(i).getOverallRating() > 3){
 				System.out.print(load.getItems().get(i));
 				amountOfMoviesDisplayed++;
 			}

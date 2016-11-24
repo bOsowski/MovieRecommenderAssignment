@@ -194,7 +194,7 @@ public class Item implements Serializable{
 	@Override
 	public String toString(){
 		
-		String details = ("\nItem [movieId=" + movieId + ", movieTitle=" + movieTitle + ", releaseDate=" + releaseDate
+		String details = ("\nRating - " + allRatings +"amountOfRatings - "+amountOfRatings +"Item [movieId=" + movieId + ", movieTitle=" + movieTitle + ", releaseDate=" + releaseDate
 			  + " Overall Rating: "+ (new DecimalFormat("##.#").format((allRatings/amountOfRatings))) +" Amount of Ratings: "+amountOfRatings +", movieUrl=" + movieUrl);
 		
 		if(unknownGenre == 1){
@@ -205,7 +205,7 @@ public class Item implements Serializable{
 		}		
 		if(adventureGenre  == 1){
 			details = details + (", adventureGenre");
-		}		
+		}	
 		if(animationGenre == 1){
 			details = details + (", animationGenre");
 		}		
@@ -285,11 +285,16 @@ public class Item implements Serializable{
 	
 	public void setOverallRating(double overallRating){
 		amountOfRatings++;
-		this.allRatings = this.allRatings + allRatings;
+		this.allRatings = this.allRatings + overallRating;
+	}
+	
+	public double getAllRatings(){
+		
+		return this.allRatings;
 	}
 	
 	public double getOverallRating(){
-		return this.allRatings/this.amountOfRatings;
+		return allRatings/amountOfRatings;
 	}
 	
 	
